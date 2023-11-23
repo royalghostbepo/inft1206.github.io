@@ -1,12 +1,12 @@
 // set up canvas
 
 
-const para = document.querySelector('p');
-let count = 0;
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
-const width = canvas.width = window.innerWidth;
-const height = canvas.height = window.innerHeight;
+const para = document.querySelector('p');   // Paragraph element for displaying ball count
+let count = 0;  // Counter for ball count
+const canvas = document.querySelector('canvas');  // Canvas element
+const ctx = canvas.getContext('2d');  // Context for drawing on canvas
+const width = canvas.width = window.innerWidth;  // Width of canvas
+const height = canvas.height = window.innerHeight;    // Height of canvas
 
 // function to generate random number
 
@@ -21,7 +21,7 @@ function randomRGB() {
 }
 
 
-// Shape class
+// Shape class for common properties of shapes
 class Shape {
 
    constructor(x, y, velX, velY) {
@@ -32,7 +32,7 @@ class Shape {
    }
  
  }
-
+// Ball class inheriting from Shape
  class Ball extends Shape {
 
    constructor(x, y, velX, velY, color, size) {
@@ -40,16 +40,17 @@ class Shape {
  
      this.color = color;
      this.size = size;
-     this.exists = true;
+     this.exists = true;  // Flag to determine if the ball exists
    }
- 
+    // Draw the ball
    draw() {
      ctx.beginPath();
      ctx.fillStyle = this.color;
      ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
      ctx.fill();
    }
- 
+   
+     // Update ball's position and handle edge collisions
    update() {
      if ((this.x + this.size) >= width) {
        this.velX = -(this.velX);
@@ -71,7 +72,7 @@ class Shape {
      this.y += this.velY;
    }
  
- 
+   // Detect collision with other balls and change color
    collisionDetect() {
       for (const ball of balls) {
          if (!(this === ball) && ball.exists) {
@@ -160,6 +161,8 @@ class DeleteCircle extends Shape {
  
  }
 
+
+ // Array to hold balls
 const balls = [];
 
 while (balls.length < 25) {
@@ -195,6 +198,8 @@ function loop() {
     }
   }
 
+
+   // Draw and handle bounds and collisions for deleteBall
   deleteBall.draw();
   deleteBall.checkBounds();
   deleteBall.collisionDetect();
