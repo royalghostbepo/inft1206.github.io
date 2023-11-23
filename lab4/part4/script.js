@@ -33,15 +33,14 @@ class Shape {
  
  }
 
-class Ball {
+ class Ball extends Shape {
 
    constructor(x, y, velX, velY, color, size) {
-      this.x = x;
-      this.y = y;
-      this.velX = velX;
-      this.velY = velY;
-      this.color = color;
-      this.size = size;
+     super(x, y, velX, velY);
+ 
+     this.color = color;
+     this.size = size;
+     this.exists = true;
    }
 
    draw() {
