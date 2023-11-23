@@ -1,5 +1,8 @@
 // set up canvas
 
+
+const para = document.querySelector('p');
+let count = 0;
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 const width = canvas.width = window.innerWidth;
@@ -16,6 +19,19 @@ function random(min, max) {
 function randomRGB() {
   return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
 }
+
+
+// Shape class
+class Shape {
+
+   constructor(x, y, velX, velY) {
+     this.x = x;
+     this.y = y;
+     this.velX = velX;
+     this.velY = velY;
+   }
+ 
+ }
 
 class Ball {
 
