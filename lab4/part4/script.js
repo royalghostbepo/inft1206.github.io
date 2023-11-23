@@ -42,50 +42,51 @@ class Shape {
      this.size = size;
      this.exists = true;
    }
-
+ 
    draw() {
-      ctx.beginPath();
-      ctx.fillStyle = this.color;
-      ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-      ctx.fill();
+     ctx.beginPath();
+     ctx.fillStyle = this.color;
+     ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+     ctx.fill();
    }
-
+ 
    update() {
-      if ((this.x + this.size) >= width) {
-         this.velX = -(Math.abs(this.velX));
-      }
-
-      if ((this.x - this.size) <= 0) {
-         this.velX = Math.abs(this.velX);
-      }
-
-      if ((this.y + this.size) >= height) {
-         this.velY = -(Math.abs(this.velY));
-      }
-
-      if ((this.y - this.size) <= 0) {
-         this.velY = Math.abs(this.velY);
-      }
-
-      this.x += this.velX;
-      this.y += this.velY;
+     if ((this.x + this.size) >= width) {
+       this.velX = -(this.velX);
+     }
+ 
+     if ((this.x - this.size) <= 0) {
+       this.velX = -(this.velX);
+     }
+ 
+     if ((this.y + this.size) >= height) {
+       this.velY = -(this.velY);
+     }
+ 
+     if ((this.y - this.size) <= 0) {
+       this.velY = -(this.velY);
+     }
+ 
+     this.x += this.velX;
+     this.y += this.velY;
    }
-
+ 
+ 
    collisionDetect() {
       for (const ball of balls) {
-         if (!(this === ball)) {
+         if (!(this === ball) && ball.exists) {
             const dx = this.x - ball.x;
             const dy = this.y - ball.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-
+ 
             if (distance < this.size + ball.size) {
               ball.color = this.color = randomRGB();
             }
          }
       }
    }
-
-}
+ 
+ }
 
 
 // Ball delete
@@ -179,17 +180,26 @@ while (balls.length < 25) {
   para.textContent = 'Ball count: ' + count;
 }
 
+//deleteBall = deleted ball
+const deleteBall = new DeleteCircle(random(0, width), random(0, height));
+
 function loop() {
-   ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-   ctx.fillRect(0, 0,  width, height);
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+  ctx.fillRect(0, 0, width, height);
 
-   for (const ball of balls) {
-     ball.draw();
-     ball.update();
-     ball.collisionDetect();
-   }
+  for (const ball of balls) {
+    if (ball.exists) {
+      ball.draw();
+      ball.update();
+      ball.collisionDetect();
+    }
+  }
 
-   requestAnimationFrame(loop);
+  deleteBall.draw();
+  deleteBall.checkBounds();
+  deleteBall.collisionDetect();
+
+  requestAnimationFrame(loop);
 }
 
 loop();
